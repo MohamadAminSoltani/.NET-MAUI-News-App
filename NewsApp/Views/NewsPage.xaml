@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarHasShadow="False"
+             Shell.NavBarIsVisible="False"
+             xmlns:viewmodel="clr-namespace:NewsApp.ViewModels"
+             xmlns:models="clr-namespace:NewsApp.Models"
+             xmlns:sfList="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             BackgroundColor="#1D2229"
+             x:DataType="viewmodel:NewsViewModel"
+             x:Class="NewsApp.Views.NewsPage">
+    
+    <Grid RowDefinitions="auto,*">
+        
+        <!--Section 1-->
+        <Grid ColumnDefinitions="*,40">
+            <SearchBar Placeholder="Search"
+                       BackgroundColor="#1D2229"
+                       PlaceholderColor="#DADBDC" 
+                       Margin="10"/>
+
+            <Label Text="&#xf0b0;"
+                   FontFamily="solid"
+                   FontSize="Large"
+                   HorizontalTextAlignment="Center"
+                   VerticalOptions="Center"
+                   HorizontalOptions="FillAndExpand"
+                   TextColor="White"
+                   Grid.Column="1"/>
+        </Grid>
+        
+        <!--Section 2-->
+        <tabView:SfTabView x:Name="newsTabView"
+                           HorizontalOptions="Center"
+                           Grid.Row="1"
+                           BackgroundColor="Transparent"
+                           SelectionChanged="NewsTabViewSelectionChanged"
+                           IndicatorBackground="White">
+            <tabView:SfTabView.Items>
+                <tabView:SfTabItem Header="Suggested"
+                                   HorizontalOptions="FillAndExpand"
+                                   FontSize="Medium"
+                                   FontFamily="RobotoBold"
+                                   FontAttributes="Bold"
+                                   x:Name="suggestedNewsTabItem"
+                                   TextColor="White">
+
+                    <Grid RowDefinitions="auto,auto,*">
+                        
+                        <!--Category 1-->
+                        <CollectionView Margin="0,10,0,0"
+                                        HeightRequest="50"
+                                        HorizontalOptions="FillAndExpand"
+                                        ItemsSource="{Binding FirstCategories}"
+                                        ItemsLayout="HorizontalList"
+                                        Grid.Row="0"
+                                        HorizontalScrollBarVisibility="Never"
+                                        SelectionMode="None"
+                                        VerticalOptions="Start">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Category">
+                                    <Grid Margin="5,0">
+                                        <Border Stroke="Transparent"
+                                                BackgroundColor="#333840"
+                                                StrokeThickness="4"
+                                                StrokeShape="RoundRectangle 15,15,15,15"
+                                                Padding="10"
+                                                HorizontalOptions="Center">
+                                            <Label Text="{Binding Title}"
+                                                   FontFamily="RobotoBold"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   VerticalOptions="Center"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center"/>
+
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border"
+                                                         Binding="{Binding IsSelected}"
+                                                         Value="true">
+                                                    <Setter Property="Background">
+                                                        <LinearGradientBrush EndPoint="1,0">
+                                                            <GradientStop Color="#44B8D8"
+                                                                      Offset="0.1"/>
+                                                            <GradientStop Color="#7151D6"
+                                                                      Offset="0.5"/>
+                                                            <GradientStop Color="#DB7F64"
+                                                                      Offset="1.0"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border"
+                                                             Binding="{Binding IsSelected}"
+                                                             Value="false">
+                                                    <Setter Property="Background">
+                                                        <LinearGradientBrush EndPoint="1,0">
+                                                            <GradientStop Color="#333840"
+                                                                      Offset="0"/>
+                                                            <GradientStop Color="#333840"
+                                                                      Offset="1.0"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Border.Triggers>
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:NewsViewModel}},Path=SelectCategoryCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                            </Border.GestureRecognizers>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!--Category 2-->
+                        <CollectionView Margin="0,10,0,0"
+                                        ItemsSource="{Binding SecondCategories}"
+                                        Grid.Row="1"
+                                        ItemsLayout="HorizontalList"
+                                        HorizontalScrollBarVisibility="Never"
+                                        SelectionMode="None"
+                                        HeightRequest="50"
+                                        VerticalOptions="Start">
+                            
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Category">
+                                    <Grid Margin="5,0">
+                                        <Border Stroke="Transparent"
+                                                BackgroundColor="#333840"
+                                                StrokeThickness="4"
+                                                StrokeShape="RoundRectangle 15,15,15,15"
+                                                Padding="10"
+                                                HorizontalOptions="Center">
+                                            <Label Text="{Binding Title}"
+                                                   FontFamily="RobotoBold"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   VerticalOptions="Center"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center"/>
+
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border"
+                                                         Binding="{Binding IsSelected}"
+                                                         Value="true">
+                                                    <Setter Property="Background">
+                                                        <LinearGradientBrush EndPoint="1,0">
+                                                            <GradientStop Color="#44B8D8"
+                                                                      Offset="0.1"/>
+                                                            <GradientStop Color="#7151D6"
+                                                                      Offset="0.5"/>
+                                                            <GradientStop Color="#DB7F64"
+                                                                      Offset="1.0"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border"
+                                                             Binding="{Binding IsSelected}"
+                                                             Value="false">
+                                                    <Setter Property="Background">
+                                                        <LinearGradientBrush EndPoint="1,0">
+                                                            <GradientStop Color="#333840"
+                                                                      Offset="0"/>
+                                                            <GradientStop Color="#333840"
+                                                                      Offset="1.0"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Border.Triggers>
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:NewsViewModel}},Path=SelectCategoryCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                            </Border.GestureRecognizers>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        
+                        <!--News-->
+                        <RefreshView Grid.Row="2"
+                                     RefreshColor="White"
+                                     Margin="10,10,10,0"
+                                     IsRefreshing="{Binding IsBusy,Mode=TwoWay}"
+                                     Command="{Binding GetNewsCommand}">
+                            <sfList:SfListView ItemsSource="{Binding Articles}"
+                                               ItemSpacing="5"
+                                               CachingStrategy="RecycleTemplate"
+                                               AutoFitMode="Height"
+                                               ItemsSourceChangeCachingStrategy="RecycleItems"
+                                               SelectionMode="None">
+                                <sfList:SfListView.ItemsLayout>
+                                    <sfList:GridLayout SpanCount="2"/>
+                                </sfList:SfListView.ItemsLayout>
+
+                                <sfList:SfListView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Article">
+                                        <Frame BackgroundColor="#333840"
+                                               BorderColor="Transparent"
+                                               HeightRequest="300"
+                                               IsClippedToBounds="True"
+                                               Padding="0">
+
+                                            <VerticalStackLayout>
+                                                <Image Aspect="AspectFill"
+                                                       HeightRequest="220"
+                                                       WidthRequest="220">
+                                                    <Image.Source>
+                                                        <UriImageSource Uri="{Binding Image}"
+                                                                    CachingEnabled="True"
+                                                                    CacheValidity="10:00:00.0"/>
+                                                    </Image.Source>
+                                                </Image>
+
+                                                <Label Text="{Binding Title}"
+                                                       TextColor="White"
+                                                       FontFamily="RobotoMedium"
+                                                       FontAttributes="Bold"
+                                                       Margin="10"
+                                                       MaxLines="3"/>
+                                            </VerticalStackLayout>
+
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:NewsViewModel}},Path=GoToDetailsPageCommand}"
+                                                                      CommandParameter="{Binding .}"/>
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </DataTemplate>
+                                </sfList:SfListView.ItemTemplate>
+
+                            </sfList:SfListView>
+                        </RefreshView>
+                        
+                                           
+                    </Grid>
+                                    
+                    
+                    
+                </tabView:SfTabItem>
+
+                <tabView:SfTabItem Header="Saved"
+                                   FontSize="Medium"
+                                   FontFamily="RobotoBold"
+                                   FontAttributes="Bold"
+                                   x:Name="savedNewsTabItem"
+                                   TextColor="#686B70">
+                    <RefreshView RefreshColor="Green"
+                                 Margin="10,10,10,0"
+                                 IsRefreshing="{Binding IsBusy,Mode=TwoWay}"
+                                 Command="{Binding GetArticlesFromDbCommand}">
+                        <sfList:SfListView ItemsSource="{Binding SavedArticles}"
+                                               ItemSpacing="5"
+                                               CachingStrategy="RecycleTemplate"
+                                               AutoFitMode="Height"
+                                               ItemsSourceChangeCachingStrategy="RecycleItems"
+                                               SelectionMode="None">
+                            <sfList:SfListView.ItemsLayout>
+                                <sfList:GridLayout SpanCount="2"/>
+                            </sfList:SfListView.ItemsLayout>
+
+                            <sfList:SfListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Article">
+                                    <Frame BackgroundColor="#333840"
+                                               BorderColor="Transparent"
+                                               HeightRequest="300"
+                                               IsClippedToBounds="True"
+                                               Padding="0">
+
+                                        <VerticalStackLayout>
+                                            <Image Aspect="AspectFill"
+                                                       HeightRequest="220"
+                                                       WidthRequest="220">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding Image}"
+                                                                    CachingEnabled="True"
+                                                                    CacheValidity="10:00:00.0"/>
+                                                </Image.Source>
+                                            </Image>
+
+                                            <Label Text="{Binding Title}"
+                                                       TextColor="White"
+                                                       FontFamily="RobotoMedium"
+                                                       FontAttributes="Bold"
+                                                       Margin="10"
+                                                       MaxLines="3"/>
+                                        </VerticalStackLayout>
+
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:NewsViewModel}},Path=GoToDetailsPageCommand}"
+                                                                      CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </DataTemplate>
+                            </sfList:SfListView.ItemTemplate>
+
+                        </sfList:SfListView>
+                    </RefreshView>
+                </tabView:SfTabItem>
+
+            </tabView:SfTabView.Items>
+        </tabView:SfTabView>
+        
+        
+    </Grid>
+</ContentPage>
