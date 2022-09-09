@@ -4,7 +4,7 @@
     {
         public static string GetLocalPath(string filename)
         {
-            return System.IO.Path.Combine(FileSystem.AppDataDirectory, filename);
+            return Path.Combine(FileSystem.AppDataDirectory, filename);
         }
     }
 }
