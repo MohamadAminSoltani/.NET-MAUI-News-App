@@ -8,12 +8,6 @@ namespace NewsApp.ViewModels
         [NotifyPropertyChangedFor(nameof(IsNotBusy))]
         bool isBusy;
 
-        //[ObservableProperty]
-        //string title;
-
-        //[ObservableProperty]
-        //double pageOpacity = 1;
-
         public bool IsNotBusy => !IsBusy;
     }
 }
